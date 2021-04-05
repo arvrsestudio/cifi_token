@@ -13,7 +13,7 @@ contract Cifi_Token is ERC20,AccessControl,ERC20Burnable,Pausable{
   bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
   bytes32 public constant BURNER_ROLE = keccak256("BURNER_ROLE");
 
-  constructor() public ERC20("citizen.Fi", "CIFI") {
+  constructor() public ERC20("Citizen.Finance:Ciphi", "CIFI") {
     _mint(msg.sender, 500000 * 10**18);
     _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
     _setupRole(MINTER_ROLE, msg.sender);
