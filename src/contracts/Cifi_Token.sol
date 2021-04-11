@@ -26,7 +26,11 @@ contract Cifi_Token is ERC20,AccessControl,ERC20Burnable,Pausable{
     _setupRole(BURNER_ROLE, msg.sender);
   }
   
-  
+  function transferOwnership(address newOwner) public {
+      require(hasRole(DEFAULT_ADMIN_ROLE, msg.sender),"Caller is not an admin");
+      grantRole(DEFAULT_ADMIN_ROLE, newOwner);
+      revokeRole(DEFAULT_ADMIN_ROLE, msg.sender);
+  }
   
   function burn(uint256 amount) whenNotPaused() public override virtual {
         require(hasRole(BURNER_ROLE, msg.sender), "Caller is not a burner");
