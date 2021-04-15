@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.8.4;
 
 
@@ -13,7 +14,7 @@ pragma solidity >=0.4.22 <0.8.4;
  * This contract is only required for intermediate, library-like contracts.
  */
 abstract contract Context {
-    function _msgSender() internal view virtual returns (address payable) {
+    function _msgSender() internal view virtual returns (address) {
         return msg.sender;
     }
 
@@ -363,7 +364,7 @@ contract ERC20 is Context, IERC20 {
      * All three of these values are immutable: they can only be set once during
      * construction.
      */
-    constructor (string memory name_, string memory symbol_) public {
+    constructor (string memory name_, string memory symbol_) {
         _name = name_;
         _symbol = symbol_;
         _decimals = 18;
@@ -686,7 +687,7 @@ abstract contract Pausable is Context {
     /**
      * @dev Initializes the contract in unpaused state.
      */
-    constructor () internal {
+    constructor () {
         _paused = false;
     }
 
@@ -1464,7 +1465,7 @@ contract Cifi_Token is ERC20,AccessControl,ERC20Burnable,Pausable{
   uint256 public  _maxSupply = 0;
   uint256 internal _totalSupply=0;
 
-  constructor() public ERC20("Citizen.Finance:Ciphi", "CIFI") {
+  constructor() ERC20("Citizen.Finance:Ciphi", "CIFI") {
     _maxSupply = 500000 * 10**18;
     // _mint(msg.sender, 500000 * 10**18);
     _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
