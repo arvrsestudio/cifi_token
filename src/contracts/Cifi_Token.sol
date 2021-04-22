@@ -46,7 +46,6 @@ contract Cifi_Token is ERC20,AccessControl,ERC20Burnable,Pausable{
         uint256 newMintSupply = _totalSupply.add(amount* 10**18);
         require( newMintSupply <= _maxSupply,"supply is max!");
         _totalSupply = _totalSupply.add(amount* 10**18);
-        emit Transfer(address(0), account, amount* 10**18);
         _mint(account,amount* 10**18);
     }
     
