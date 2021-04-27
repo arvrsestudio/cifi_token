@@ -18,14 +18,25 @@ contract Cifi_Token is ERC20,AccessControl,ERC20Burnable,Pausable{
   uint256 public  _maxSupply = 0;
   uint256 internal _totalSupply=0;
 
-  constructor() public ERC20("Citizen.Finance:Ciphi", "CIFI") {
+  address public MULTI_SIGN_WALLET;
+
+  constructor(address multiSign) public ERC20("Citizen.Finance:Ciphi", "CIFI") {
     _maxSupply = 500000 * 10**18;
     // _mint(msg.sender, 500000 * 10**18);
     _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
-    _setupRole(MINTER_ROLE, msg.sender);
-    _setupRole(BURNER_ROLE, msg.sender);
+    _setupRole(MINTER_ROLE, multiSign);
+    _setupRole(BURNER_ROLE, multiSign);
+    MULTI_SIGN_WALLET=multiSign;
+
+    // _setupRole(MINTER_ROLE, msg.sender);
+    // _setupRole(BURNER_ROLE, msg.sender);
   }
   
+    modifier validMultiSignWallet() {
+        require(msg.sender == MULTI_SIGN_WALLET, " Not a valid Multi sign wallet address. ");
+        _;
+    }
+
   function transferOwnership(address newOwner) public {
       require(hasRole(DEFAULT_ADMIN_ROLE, msg.sender),"Caller is not an admin");
       grantRole(DEFAULT_ADMIN_ROLE, newOwner);
