@@ -1465,7 +1465,7 @@ contract Cifi_Token is ERC20,AccessControl,ERC20Burnable,Pausable{
   uint256 public  _maxSupply = 0;
   uint256 internal _totalSupply=0;
 
-  constructor() ERC20("Citizen.Finance:Ciphi", "CIFI") {
+  constructor() ERC20("Citizen Finance", "CIFI") {
     _maxSupply = 500000 * 10**18;
     // _mint(msg.sender, 500000 * 10**18);
     _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
