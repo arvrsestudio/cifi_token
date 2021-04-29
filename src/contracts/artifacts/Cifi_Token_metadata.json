@@ -6,7 +6,13 @@
 	"output": {
 		"abi": [
 			{
-				"inputs": [],
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "multiSign",
+						"type": "address"
+					}
+				],
 				"stateMutability": "nonpayable",
 				"type": "constructor"
 			},
@@ -195,6 +201,32 @@
 						"internalType": "bytes32",
 						"name": "",
 						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "MULTI_SIGN_WALLET",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "_maxSupply",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
 					}
 				],
 				"stateMutability": "view",
@@ -628,6 +660,26 @@
 				],
 				"stateMutability": "nonpayable",
 				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "newOwner",
+						"type": "address"
+					}
+				],
+				"name": "transferOwnership",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "unpause",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
 			}
 		],
 		"devdoc": {
@@ -701,7 +753,11 @@
 		},
 		"userdoc": {
 			"kind": "user",
-			"methods": {},
+			"methods": {
+				"_maxSupply()": {
+					"notice": "Constant token specific fields"
+				}
+			},
 			"version": 1
 		}
 	},
@@ -794,11 +850,11 @@
 			]
 		},
 		"src/contracts/Cifi_Token.sol": {
-			"keccak256": "0xae426fe3757a7aaef1cbb2a9ce6e5a2f981d4ea10d1a824b2a75dc9c9eca5931",
+			"keccak256": "0x10418f6114d5b91a6af31df4eec5408e4d5962824e20fd3aca1b14981f7c75c1",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://fbdb9bce0f225aebf4eaef3327b19ea840be5ca830fc8d66d50480e50feaaf1f",
-				"dweb:/ipfs/QmdH5zmMrmSFQ2Nib8BaciBncwNX9or9WS4LXgxQgLnUsA"
+				"bzz-raw://7726d989b5e9f4e6a9f80fd7b3c878194087bb3fa968325bf44804ec224651b2",
+				"dweb:/ipfs/QmWv3Wf6n7idxVzK72jCWuUJN6vhNjA7xrTN861wtisT9c"
 			]
 		}
 	},
