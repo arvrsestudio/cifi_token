@@ -47,7 +47,6 @@ contract Multi_Signature{
     
     //integrate cifitoken contract here 
     //ERC20 cifiTokenContract = ERC20(0xe56aB536c90E5A8f06524EA639bE9cB3589B8146);
-    //uint8 cifiDecimals = cifiTokenContract.decimals();
     
     constructor() {
         owners[msg.sender]=true;
@@ -75,7 +74,7 @@ contract Multi_Signature{
     function addOwner(address owner)
         validOwner
         public {
-            require(owners[owner]!=true,"Already an owner.");
+        require(owners[owner]!=true,"Already an owner.");
         require(curOwnerCount<maxOwnerCount,"Can't add more than 5 Authorities");
         owners[owner] = true;
         curOwnerCount++;
@@ -97,7 +96,7 @@ contract Multi_Signature{
             emit transactionInitiated(transactionId, transactions[transactionId].tType);
     }
     
-    function initMint(uint amount, bool isMint, address recipient)
+    function initMint(uint amount, address recipient)
         validOwner
         public {
             transactionIdx++;
@@ -155,7 +154,6 @@ contract Multi_Signature{
             deleteTransaction(transactionId);
         }
         
-        // TransactionCompleted(msg.sender, transaction.to, transaction.amount, transactionId);
         deleteTransaction(transactionId);
       }
     }
