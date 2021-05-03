@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.4.22 <0.8.4;
+pragma solidity >=0.4.22 <0.9.0;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20Burnable.sol";
@@ -23,7 +23,7 @@ contract Cifi_Token is ERC20,AccessControl,ERC20Burnable,Pausable{contract Cifi_
   address public MULTI_SIGN_WALLET;
   event validate(address sender, address MULTI_SIGN_WALLET);
 
-  constructor() public ERC20("Citizen.Finance:Ciphi", "CIFI") {
+  constructor() public ERC20("Ciphi", "CIFI") {
     _maxSupply = 500000 * 10**18;
     // _mint(msg.sender, 500000 * 10**18);
     _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
@@ -168,7 +168,7 @@ contract Cifi_Token is ERC20,AccessControl,ERC20Burnable,Pausable{contract Cifi_
         emit Paused(_msgSender());
     }
     
-    function unpause() whenPaused() internal virtual {
+    function unpause() whenPaused() public virtual {
         require(hasRole(DEFAULT_ADMIN_ROLE, msg.sender), "Caller is not an admin");
         super._unpause();
         emit Unpaused(_msgSender());
