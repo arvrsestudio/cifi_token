@@ -2,6 +2,7 @@
 pragma solidity >=0.4.22 <0.9.0;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "./Cifi_Token.sol";
 
 contract Multi_Signature{
     
@@ -46,8 +47,7 @@ contract Multi_Signature{
     event transactionDeleted(uint transactionId);
     
     //integrate cifitoken contract here 
-    //ERC20 cifiTokenContract = ERC20(0xe56aB536c90E5A8f06524EA639bE9cB3589B8146);
-    //uint8 cifiDecimals = cifiTokenContract.decimals();
+    Cifi_Token cifiTokenContract = Cifi_Token(0xd7B63981A38ACEB507354DF5b51945bacbe28414);
     
     constructor() {
         owners[msg.sender]=true;
@@ -75,7 +75,7 @@ contract Multi_Signature{
     function addOwner(address owner)
         validOwner
         public {
-            require(owners[owner]!=true,"Already an owner.");
+        require(owners[owner]!=true,"Already an owner.");
         require(curOwnerCount<maxOwnerCount,"Can't add more than 5 Authorities");
         owners[owner] = true;
         curOwnerCount++;
@@ -97,7 +97,7 @@ contract Multi_Signature{
             emit transactionInitiated(transactionId, transactions[transactionId].tType);
     }
     
-    function initMint(uint amount, bool isMint, address recipient)
+    function initMint(uint amount, address recipient)
         validOwner
         public {
             transactionIdx++;
@@ -143,10 +143,10 @@ contract Multi_Signature{
         
         //add logic to mint/burn or add/remove authority
         if(transactions[transactionId].tType==TransactionType.MINT){
-            //cifiTokenContract.mint(transactions[transactionId].dataAddress,transactions[transactionId].amount);
+            cifiTokenContract.mint(transactions[transactionId].dataAddress,transactions[transactionId].amount);
         }
         else if(transactions[transactionId].tType==TransactionType.BURN){
-            //cifiTokenContract.burn(transactions[transactionId].amount);
+            cifiTokenContract.burn(transactions[transactionId].amount);
         }
         else{
             require(curOwnerCount>=4,"The owner count is less then threshold!");
@@ -155,7 +155,6 @@ contract Multi_Signature{
             deleteTransaction(transactionId);
         }
         
-        // TransactionCompleted(msg.sender, transaction.to, transaction.amount, transactionId);
         deleteTransaction(transactionId);
       }
     }
@@ -179,7 +178,6 @@ contract Multi_Signature{
       delete pendingTransactions[pendingTransactions.length-1];
       delete transactions[transactionId];
       
-    }
-    
+      }
     
 }
