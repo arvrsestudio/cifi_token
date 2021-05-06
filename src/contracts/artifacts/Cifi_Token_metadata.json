@@ -1,18 +1,12 @@
 {
 	"compiler": {
-		"version": "0.7.6+commit.7338295f"
+		"version": "0.7.4+commit.3f05b770"
 	},
 	"language": "Solidity",
 	"output": {
 		"abi": [
 			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "multiSign",
-						"type": "address"
-					}
-				],
+				"inputs": [],
 				"stateMutability": "nonpayable",
 				"type": "constructor"
 			},
@@ -169,6 +163,19 @@
 			},
 			{
 				"inputs": [],
+				"name": "AuthoriseMultiSign",
+				"outputs": [
+					{
+						"internalType": "uint8",
+						"name": "",
+						"type": "uint8"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
 				"name": "BURNER_ROLE",
 				"outputs": [
 					{
@@ -201,19 +208,6 @@
 						"internalType": "bytes32",
 						"name": "",
 						"type": "bytes32"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "MULTI_SIGN_WALLET",
-				"outputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
 					}
 				],
 				"stateMutability": "view",
@@ -673,13 +667,6 @@
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "unpause",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
 			}
 		],
 		"devdoc": {
@@ -850,11 +837,11 @@
 			]
 		},
 		"src/contracts/Cifi_Token.sol": {
-			"keccak256": "0x10418f6114d5b91a6af31df4eec5408e4d5962824e20fd3aca1b14981f7c75c1",
+			"keccak256": "0x8f204903e56aa0421bf218b4a7b251ca68b77900331d9b883f37abe4cef25ad5",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://7726d989b5e9f4e6a9f80fd7b3c878194087bb3fa968325bf44804ec224651b2",
-				"dweb:/ipfs/QmWv3Wf6n7idxVzK72jCWuUJN6vhNjA7xrTN861wtisT9c"
+				"bzz-raw://22b140090c5752e96b304e16cfe54b4ff54ad4d0e3d2a1c0da5d446e9dd7abad",
+				"dweb:/ipfs/QmSZMd7KEn9YHH3gXHnEzdf2AcJCYiSQosn9YtBdgNqgB3"
 			]
 		}
 	},
