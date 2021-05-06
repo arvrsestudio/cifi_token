@@ -17,11 +17,7 @@ contract Cifi_Token is ERC20, AccessControl, ERC20Burnable, Pausable {
     uint256 public _maxSupply = 0;
     uint256 internal _totalSupply = 0;
 
-    // address to store multiSign contract address and counter to make sure the contract address is added only once
-    uint8 public AuthoriseMultiSign = 0;
 
-    //ddress public MULTI_SIGN_WALLET;
-    //event validate(address sender, address MULTI_SIGN_WALLET);
 
     constructor() ERC20("Ciphi", "CIFI") {
         _maxSupply = 500000 * 10**18;
@@ -31,15 +27,6 @@ contract Cifi_Token is ERC20, AccessControl, ERC20Burnable, Pausable {
         // _setupRole(BURNER_ROLE, msg.sender);
     }
 
-    // modifier validMultiSignWallet() {
-    //     emit validate(msg.sender, MULTI_SIGN_WALLET);
-    //     require(
-    //         msg.sender == MULTI_SIGN_WALLET,
-    //         " Not a valid Multi sign wallet address. "
-    //     );
-
-    //     _;
-    // }
 
     function transferOwnership(address newOwner) public {
         require(
@@ -50,28 +37,11 @@ contract Cifi_Token is ERC20, AccessControl, ERC20Burnable, Pausable {
         revokeRole(DEFAULT_ADMIN_ROLE, msg.sender);
     }
 
-    // function to add multiSign wallet only once by admin
-    // function addMultiSigWallet(address multiSig) public {
-    //     require(
-    //         hasRole(DEFAULT_ADMIN_ROLE, msg.sender),
-    //         "Caller is not an admin"
-    //     );
-    //     require(
-    //         AuthoriseMultiSign == 0,
-    //         "multi sign address can be added only once"
-    //     );
-    //     AuthoriseMultiSign++;
-    //     MULTI_SIGN_WALLET = multiSig;
-    //     _setupRole(MINTER_ROLE, multiSig);
-    //     _setupRole(BURNER_ROLE, multiSig);
-    // }
-
     function burn(uint256 amount)
         public
         virtual
         override
         whenNotPaused()
-    //validMultiSignWallet
     {
         require(hasRole(BURNER_ROLE, msg.sender), "Caller is not a burner");
         uint256 newBurnSupply = _totalSupply.sub(amount * 10**18);
@@ -84,7 +54,6 @@ contract Cifi_Token is ERC20, AccessControl, ERC20Burnable, Pausable {
         public
         virtual
         whenNotPaused()
-    //validMultiSignWallet
     {
         require(account != address(0), "ERC20: mint to the zero address");
         require(hasRole(MINTER_ROLE, msg.sender), "Caller is not a burner");
