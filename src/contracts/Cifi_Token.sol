@@ -40,25 +40,6 @@ contract Cifi_Token is ERC20, AccessControl, ERC20Burnable, Pausable {
         super._mint(_to, _amount);
     }
 
-    function transfer(address recipient, uint256 amount)
-        public
-        virtual
-        override
-        returns (bool)
-    {
-        super.transfer(recipient, amount);
-        return true;
-    }
-
-    function transferFrom(
-        address sender,
-        address recipient,
-        uint256 amount
-    ) public virtual override whenNotPaused returns (bool) {
-        super.transferFrom(sender, recipient, amount);
-        return true;
-    }
-
     function pause() external onlyAdminRole {
         super._pause();
     }
