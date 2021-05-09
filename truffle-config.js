@@ -1,18 +1,15 @@
-require('dotenv').config();
-const privateKeys = process.env.PRIVATE_KEYS || ""
-const HDWalletProvider = require('@truffle/hdwallet-provider');
-
+require("dotenv").config();
+const privateKeys = process.env.PRIVATE_KEYS || "";
+const HDWalletProvider = require("@truffle/hdwallet-provider");
 
 module.exports = {
-
-
   networks: {
-    
     bsc_testnet: {
-      provider: () => new HDWalletProvider(
-        privateKeys.split(','),
-        `wss://data-seed-prebsc-1-s1.binance.org:8545`
-      ),
+      provider: () =>
+        new HDWalletProvider(
+          privateKeys.split(","),
+          `wss://data-seed-prebsc-1-s1.binance.org:8545`
+        ),
       network_id: 97,
       confirmations: 10,
       timeoutBlocks: 200,
@@ -20,10 +17,11 @@ module.exports = {
       networkCheckTimeout: 1000000,
     },
     bsc_mainnet: {
-      provider: () => new HDWalletProvider(
-        privateKeys.split(','),
-        `wss://bsc-dataseed1.binance.org`
-      ),
+      provider: () =>
+        new HDWalletProvider(
+          privateKeys.split(","),
+          `wss://bsc-dataseed1.binance.org`
+        ),
       network_id: 56,
       confirmations: 10,
       timeoutBlocks: 200,
@@ -44,8 +42,8 @@ module.exports = {
   },
 
   // Configure your compilers
-  contracts_directory: './src/contracts/',
-  contracts_build_directory: './src/abis/',
+  contracts_directory: "./src/contracts/",
+  contracts_build_directory: "./src/abis/",
   compilers: {
     solc: {
       version: "0.7.4", // Fetch exact version from solc-bin (default: truffle's version)
@@ -68,6 +66,6 @@ module.exports = {
   // $ truffle migrate --reset --compile-all
 
   db: {
-    enabled: false
-  }
+    enabled: false,
+  },
 };

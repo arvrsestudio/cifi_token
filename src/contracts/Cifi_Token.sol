@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.4.22 <0.9.0;
+pragma solidity ^0.7.4;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20Burnable.sol";
@@ -10,64 +10,40 @@ import "@openzeppelin/contracts/math/SafeMath.sol";
 contract Cifi_Token is ERC20, AccessControl, ERC20Burnable, Pausable {
     using SafeMath for uint256;
 
-    bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
-    bytes32 public constant BURNER_ROLE = keccak256("BURNER_ROLE");
-
-    /// Constant token specific fields
-    uint256 public _maxSupply = 0;
-    uint256 internal _totalSupply = 0;
+    uint256 internal  _maxAmountMintable = 500_000e18;
 
 
-
-    constructor() ERC20("Ciphi", "CIFI") {
-        _maxSupply = 500000 * 10**18;
-        // _mint(msg.sender, 500000 * 10**18);
+    constructor() ERC20("citizen finance", "CIFI") {
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
-        // _setupRole(MINTER_ROLE, msg.sender);
-        // _setupRole(BURNER_ROLE, msg.sender);
     }
 
-
-    function transferOwnership(address newOwner) public {
+    modifier onlyAdminRole() {
         require(
             hasRole(DEFAULT_ADMIN_ROLE, msg.sender),
-            "Caller is not an admin"
+            "!admin"
         );
-        grantRole(DEFAULT_ADMIN_ROLE, newOwner);
+        _;
+    }
+
+    function transferOwnership(address newOwner) public onlyAdminRole {
         revokeRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        grantRole(DEFAULT_ADMIN_ROLE, newOwner);
     }
 
-    function burn(uint256 amount)
-        public
-        virtual
-        override
-        whenNotPaused()
-    {
-        require(hasRole(BURNER_ROLE, msg.sender), "Caller is not a burner");
-        uint256 newBurnSupply = _totalSupply.sub(amount * 10**18);
-        require(newBurnSupply >= 0, "Can't burn more!");
-        _totalSupply = _totalSupply.sub(amount * 10**18);
-        _burn(_msgSender(), amount * 10**18);
+    function burn(address _account, uint256 _amount) public onlyAdminRole {
+        _maxAmountMintable = _maxAmountMintable.sub(_amount);
+        super._burn(_account, _amount);
     }
 
-    function mint(address account, uint256 amount)
-        public
-        virtual
-        whenNotPaused()
-    {
-        require(account != address(0), "ERC20: mint to the zero address");
-        require(hasRole(MINTER_ROLE, msg.sender), "Caller is not a burner");
-        uint256 newMintSupply = _totalSupply.add(amount * 10**18);
-        require(newMintSupply <= _maxSupply, "supply is max!");
-        _totalSupply = _totalSupply.add(amount * 10**18);
-        _mint(account, amount * 10**18);
+    function mint(address _to, uint256 _amount) public onlyAdminRole whenNotPaused {
+        require(ERC20.totalSupply().add(_amount) <= _maxAmountMintable, "Max mintable exceeded");
+        super._mint(_to, _amount);
     }
 
     function transfer(address recipient, uint256 amount)
         public
         virtual
         override
-        whenNotPaused()
         returns (bool)
     {
         super.transfer(recipient, amount);
@@ -78,26 +54,16 @@ contract Cifi_Token is ERC20, AccessControl, ERC20Burnable, Pausable {
         address sender,
         address recipient,
         uint256 amount
-    ) public virtual override whenNotPaused() returns (bool) {
+    ) public virtual override whenNotPaused returns (bool) {
         super.transferFrom(sender, recipient, amount);
         return true;
     }
 
-    function pause() public virtual whenNotPaused() {
-        require(
-            hasRole(DEFAULT_ADMIN_ROLE, msg.sender),
-            "Caller is not an admin"
-        );
+    function pause() external onlyAdminRole {
         super._pause();
-        emit Paused(_msgSender());
     }
 
-    function unpause() internal virtual whenPaused() {
-        require(
-            hasRole(DEFAULT_ADMIN_ROLE, msg.sender),
-            "Caller is not an admin"
-        );
+    function unpause() external onlyAdminRole {
         super._unpause();
-        emit Unpaused(_msgSender());
     }
 }
