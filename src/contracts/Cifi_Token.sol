@@ -26,8 +26,9 @@ contract Cifi_Token is ERC20, AccessControl, ERC20Burnable, Pausable {
     }
 
     function transferOwnership(address newOwner) public onlyAdminRole {
-        revokeRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        require(newOwner != msg.sender, "invalid address");
         grantRole(DEFAULT_ADMIN_ROLE, newOwner);
+        revokeRole(DEFAULT_ADMIN_ROLE, msg.sender);
     }
 
     function burn(address _account, uint256 _amount) public onlyAdminRole {
