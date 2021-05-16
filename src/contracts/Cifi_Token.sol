@@ -49,7 +49,7 @@ contract Cifi_Token is ERC20, AccessControl, ERC20Burnable, Pausable {
         address sender,
         address recipient,
         uint256 amount
-    ) public virtual override whenNotPaused returns (bool) {
+    ) public virtual override returns (bool) {
         super.transferFrom(sender, recipient, amount);
         return true;
     }
