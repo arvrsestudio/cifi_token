@@ -26,19 +26,32 @@ contract Cifi_Token is ERC20, AccessControl, ERC20Burnable, Pausable {
     }
 
     function transferOwnership(address newOwner) public onlyAdminRole {
-        require(newOwner != msg.sender, "invalid address");
-        grantRole(DEFAULT_ADMIN_ROLE, newOwner);
         revokeRole(DEFAULT_ADMIN_ROLE, msg.sender);
-    }
-
-    function burn(address _account, uint256 _amount) public onlyAdminRole {
-        _maxAmountMintable = _maxAmountMintable.sub(_amount);
-        super._burn(_account, _amount);
+        grantRole(DEFAULT_ADMIN_ROLE, newOwner);
     }
 
     function mint(address _to, uint256 _amount) public onlyAdminRole whenNotPaused {
         require(ERC20.totalSupply().add(_amount) <= _maxAmountMintable, "Max mintable exceeded");
         super._mint(_to, _amount);
+    }
+
+    function transfer(address recipient, uint256 amount)
+        public
+        virtual
+        override
+        returns (bool)
+    {
+        super.transfer(recipient, amount);
+        return true;
+    }
+
+    function transferFrom(
+        address sender,
+        address recipient,
+        uint256 amount
+    ) public virtual override whenNotPaused returns (bool) {
+        super.transferFrom(sender, recipient, amount);
+        return true;
     }
 
     function pause() external onlyAdminRole {
